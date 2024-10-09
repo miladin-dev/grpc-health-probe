@@ -30,6 +30,7 @@ import (
 
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
+	"golang.org/x/net/http2"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials"
@@ -211,6 +212,7 @@ func buildCredentials(skipVerify bool, caCerts, clientCert, clientKey, serverNam
 	if serverName != "" {
 		cfg.ServerName = serverName
 	}
+	cfg.NextProtos = []string{http2.NextProtoTLS}
 	return credentials.NewTLS(&cfg), nil
 }
 
